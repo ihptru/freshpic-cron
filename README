@@ -1,0 +1,3 @@
+Cron script for freshpic
+
+Additional modules required: psycopg2
