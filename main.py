@@ -1,8 +1,8 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python
 
-import multiprocessing
 import time
 
+import remove_albums
 import remove_images
 
 class Factory:
@@ -11,7 +11,8 @@ class Factory:
         self.start_time = time.mktime(time.strptime( time.strftime('%Y-%m-%d-%H-%M-%S'), '%Y-%m-%d-%H-%M-%S'))
         
     def run_jobs(self):
-        multiprocessing.Process(target=remove_images.start, args=(self,)).start()
+        remove_albums.start(self)
+        remove_images.start(self)
 
 if __name__ == "__main__":
     factory = Factory()

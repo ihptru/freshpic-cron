@@ -1,13 +1,31 @@
 import psycopg2
 import config
+import os
 
 def start(self):
-    conn = psycopg2.connect( ("dbname=%s user=%s password=%s") % (config.dbname, config.dbuser, config.dbpassword) )
+    conn = psycopg2.connect( ("host=%s port=%s dbname=%s user=%s password=%s") % (config.dbhost, config.dbport, config.dbname, config.dbuser, config.dbpassword) )
     cur = conn.cursor()
-
-    sql = """SELECT delete_flag FROM images
+    sql = """SELECT name,user_id FROM images
+            WHERE delete = TRUE
     """
     cur.execute(sql)
-    
+    records = cur.fetchall()
     conn.commit()
+    if ( len(records) == 0 ):
+        print("No images marked for removing")
+        return
+    for i in range(len(records)):
+        name = records[i][0]
+        user_id = str(records[i][1])
+        sql = """DELETE FROM images
+                WHERE name = '"""+name+"""' AND user_id = """+user_id+"""
+        """
+        cur.execute(sql)
+        conn.commit()
+        for path_dir in ['i','p','s']:
+            image_path = config.site_location+path_dir+'/'+user_id+'/'+name+'.jpg'
+            os.remove(image_path)
+            print("Removed image: " + user_id+'/'+name)
     cur.close()
+        
+    

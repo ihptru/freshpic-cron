@@ -1,5 +1,7 @@
-images_localtion = ''
+site_location = '/var/www/'
 
-dbname = 'dbname'
-dbuser = 'dbuser'
-dbpassword = 'dbpassword'
+dbhost = 'localhost'
+dbport = 5432
+dbname = ''
+dbuser = ''
+dbpassword = ''
