@@ -13,13 +13,21 @@ def start(self):
     records = cur.fetchall()
     conn.commit()
     if ( len(records) == 0 ):
-        print("No albums to remove")
+        self.oprint("{remove_albums} No albums marked to remove")
         return
     sql = """DELETE FROM albums 
             WHERE delete = TRUE
     """
     cur.execute(sql)
     conn.commit()
+    len_rec = len(records)
+    users = []
+    albums = []
+    for i in range(len_rec):
+        users.append(records[i][0])
+        albums.append(records[i][1])
+    for i in range(len_rec):
+        self.oprint("{remove_albums} Remove album from Database | User_ID: "+users[i]+" | Album_ID: "+albums[i])
     for i in range(len(records)):
         user_id = str(records[i][0])
         album_id = str(records[i][1])
@@ -35,12 +43,14 @@ def start(self):
         cur.execute(sql)
         conn.commit()
         if ( len(rec_images) == 0 ):
-            print("This album is empty")
+            self.oprint("{remove_albums} (Empty album) | (User_ID: "+user_id+" | Album_ID "+album_id+") doesn't contain images to remove")
             continue
+        self.oprint("{remove_albums} All images from (User_ID: "+user_id+" | Album_ID: "+album_id+") removed from Database")
         for k in range(len(rec_images)):
             name = rec_images[k][0]
             for path_dir in ['i','p','s']:
                 image_path = config.site_location+path_dir+'/'+user_id+'/'+name+'.jpg'
                 os.remove(image_path)
-                print("Removed image: " + user_id+'/'+name)
+            print("{remove_albums} (User_ID: "+user_id+" | Album_ID: "+album_id+" ) Removed image from HDD: " + name)
+    self.oprint("{remove_albums} It took %s to remove Albums" % self.time_spent())
     cur.close()

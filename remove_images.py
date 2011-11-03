@@ -12,7 +12,7 @@ def start(self):
     records = cur.fetchall()
     conn.commit()
     if ( len(records) == 0 ):
-        print("No images marked for removing")
+        self.oprint("{remove_images} No images marked to remove")
         return
     for i in range(len(records)):
         name = records[i][0]
@@ -22,10 +22,12 @@ def start(self):
         """
         cur.execute(sql)
         conn.commit()
+        self.oprint("{remove_images} (User_ID: "+user_id+") Removed image from Database: "+name)
         for path_dir in ['i','p','s']:
             image_path = config.site_location+path_dir+'/'+user_id+'/'+name+'.jpg'
             os.remove(image_path)
-            print("Removed image: " + user_id+'/'+name)
+        self.oprint("{remove_images} (User_ID: "+user_id+") Removed image: " + name)
+    self.oprint("{remove_images} It took %s to remove Images" % self.time_spent())
     cur.close()
         
     
