@@ -35,6 +35,7 @@ class Factory:
     def image_factory(self):
         remove_albums.start(self)
         remove_images.start(self)
+        self.oprint("**********  SESSION END  **********")
 
 if __name__ == "__main__":
     try:

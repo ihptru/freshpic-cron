@@ -27,7 +27,7 @@ def start(self):
         users.append(records[i][0])
         albums.append(records[i][1])
     for i in range(len_rec):
-        self.oprint("{remove_albums} Remove album from Database | User_ID: "+users[i]+" | Album_ID: "+albums[i])
+        self.oprint("{remove_albums} Remove album from Database | User_ID: "+str(users[i])+" | Album_ID: "+str(albums[i]))
     for i in range(len(records)):
         user_id = str(records[i][0])
         album_id = str(records[i][1])
