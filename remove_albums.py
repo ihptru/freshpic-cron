@@ -51,6 +51,6 @@ def start(self):
             for path_dir in ['i','p','s']:
                 image_path = config.site_location+path_dir+'/'+user_id+'/'+name+'.jpg'
                 os.remove(image_path)
-            print("{remove_albums} (User_ID: "+user_id+" | Album_ID: "+album_id+" ) Removed image from HDD: " + name)
+            self.oprint("{remove_albums} (User_ID: "+user_id+" | Album_ID: "+album_id+" ) Removed image from HDD: " + name)
     self.oprint("{remove_albums} It took %s to remove Albums" % self.time_spent())
     cur.close()
